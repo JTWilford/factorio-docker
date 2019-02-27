@@ -1,0 +1,48 @@
+version: '3.6'
+services:
+### Factorio Server ###
+  server:
+    image: jwilford/factorio
+    networks:
+      - proxy
+    ports:
+      - 34197:34197
+      - 34196:34196
+    secrets:
+      - map-gen-settings.json       # The map generation settings
+      - map-settings.json           # The map difficulty settings
+      - server-settings.json        # The server settings
+    volumes:
+      - factorio-saves:/saves/
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - com.df.notify=true
+        - com.df.distribute=true
+        - com.df.serviceDomain=factorio.jwilford.me
+        - com.df.port=34197
+        - com.df.sslVerifyNone=true
+        
+networks:
+  proxy:
+    external: true
+
+secrets:
+  map-gen-settings.json:
+    external: true
+    name: factorio-map-gen-settings.json
+  map-settings.json:
+    external: true
+    name: factorio-map-settings.json
+  server-settings.json:
+    external: true
+    name: factorio-server-settings.json
+
+volumes:
+  factorio-saves:
+    external: true
