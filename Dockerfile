@@ -13,7 +13,7 @@ RUN apt-get install -y xz-utils
 RUN mkdir -p /opt/
 WORKDIR /opt/
 # Copy the package.json inside the working 
-RUN curl -L https://www.factorio.com/get-download/0.17.1/headless/linux64 | tar -xJ
+RUN curl -L https://www.factorio.com/get-download/latest/headless/linux64 | tar -xJ
 # Open port 34197. This is the port that the factorio server uses
 #EXPOSE 34197
 # Set the created directory as the working directory
